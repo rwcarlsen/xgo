@@ -103,7 +103,7 @@ func compile(repo string, remote string, branch string, pack string, deps string
 		"-e", "OUT="+prefix,
 		"-e", fmt.Sprintf("FLAG_V=%v", verbose),
 		"-e", fmt.Sprintf("FLAG_RACE=%v", race),
-		dockerDist+*goVersion, repo))
+		"rwcarlsen/xgo", repo))
 }
 
 // Executes a command synchronously, redirecting its output to stdout.
