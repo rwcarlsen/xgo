@@ -70,9 +70,9 @@ GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go get -d ./$PACK
 GOOS=linux GOARCH=amd64 CGO_ENABLED=1 go build $V $R -o $NAME-linux-amd64$R ./$PACK
 
 echo "Compiling for linux/386..."
-HOST=i686-linux PREFIX=/usr/local $BUILD_DEPS /deps
-GOOS=linux GOARCH=386 CGO_ENABLED=1 go get -d ./$PACK
-GOOS=linux GOARCH=386 CGO_ENABLED=1 go build $V -o $NAME-linux-386 ./$PACK
+CXX=g++ CXXFLAGS=-m32 HOST=i686-linux PREFIX=/usr/local $BUILD_DEPS /deps
+CXX=g++ CXXFLAGS=-m32 GOOS=linux GOARCH=386 CGO_ENABLED=1 go get -d ./$PACK
+CXX=g++ CXXFLAGS=-m32 GOOS=linux GOARCH=386 CGO_ENABLED=1 go build $V -o $NAME-linux-386 ./$PACK
 
 echo "Compiling for linux/arm..."
 CC=arm-linux-gnueabi-gcc HOST=arm-linux PREFIX=/usr/local/arm $BUILD_DEPS /deps
