@@ -74,10 +74,15 @@ CXX=g++ CXXFLAGS=-m32 HOST=i686-linux PREFIX=/usr/local $BUILD_DEPS /deps
 CXX=g++ CXXFLAGS=-m32 GOOS=linux GOARCH=386 CGO_ENABLED=1 go get -d ./$PACK
 CXX=g++ CXXFLAGS=-m32 GOOS=linux GOARCH=386 CGO_ENABLED=1 go build $V -o $NAME-linux-386 ./$PACK
 
-echo "Compiling for linux/arm..."
-CXX=arm-linux-gnueabi-g++ CC=arm-linux-gnueabi-gcc HOST=arm-linux PREFIX=/usr/local/arm $BUILD_DEPS /deps
-CXX=arm-linux-gnueabi-g++ CC=arm-linux-gnueabi-gcc GOOS=linux GOARCH=arm CGO_ENABLED=1 GOARM=5 go get -d ./$PACK
-CXX=arm-linux-gnueabi-g++ CC=arm-linux-gnueabi-gcc GOOS=linux GOARCH=arm CGO_ENABLED=1 GOARM=5 go build $V -o $NAME-linux-arm ./$PACK
+echo "Compiling for darwin/amd64..."
+CXX=o32-clang++ CC=o64-clang HOST=x86_64-apple-darwin10 PREFIX=/usr/local $BUILD_DEPS /deps
+CXX=o32-clang++ CC=o64-clang GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go get -d ./$PACK
+CXX=o32-clang++ CC=o64-clang GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build $V $R -o $NAME-darwin-amd64$R ./$PACK
+
+echo "Compiling for darwin/386..."
+CXX=o32-clang++ CC=o32-clang HOST=i386-apple-darwin10 PREFIX=/usr/local $BUILD_DEPS /deps
+CXX=o32-clang++ CC=o32-clang GOOS=darwin GOARCH=386 CGO_ENABLED=1 go get -d ./$PACK
+CXX=o32-clang++ CC=o32-clang GOOS=darwin GOARCH=386 CGO_ENABLED=1 go build $V -o $NAME-darwin-386 ./$PACK
 
 echo "Compiling for windows/amd64..."
 CXX=x86_64-w64-mingw32-g++ CC=x86_64-w64-mingw32-gcc HOST=x86_64-w64-mingw32 PREFIX=/usr/x86_64-w64-mingw32 $BUILD_DEPS /deps
@@ -88,16 +93,6 @@ echo "Compiling for windows/386..."
 CXX=i686-w64-mingw32-g++ CC=i686-w64-mingw32-gcc HOST=i686-w64-mingw32 PREFIX=/usr/i686-w64-mingw32 $BUILD_DEPS /deps
 CXX=i686-w64-mingw32-g++ CC=i686-w64-mingw32-gcc GOOS=windows GOARCH=386 CGO_ENABLED=1 go get -d ./$PACK
 CXX=i686-w64-mingw32-g++ CC=i686-w64-mingw32-gcc GOOS=windows GOARCH=386 CGO_ENABLED=1 go build $V -o $NAME-windows-386.exe ./$PACK
-
-echo "Compiling for darwin/amd64..."
-CXX=o32-clang++ CC=o64-clang HOST=x86_64-apple-darwin10 PREFIX=/usr/local $BUILD_DEPS /deps
-CXX=o32-clang++ CC=o64-clang GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go get -d ./$PACK
-CXX=o32-clang++ CC=o64-clang GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 go build $V $R -o $NAME-darwin-amd64$R ./$PACK
-
-echo "Compiling for darwin/386..."
-CXX=o32-clang++ CC=o32-clang HOST=i386-apple-darwin10 PREFIX=/usr/local $BUILD_DEPS /deps
-CXX=o32-clang++ CC=o32-clang GOOS=darwin GOARCH=386 CGO_ENABLED=1 go get -d ./$PACK
-CXX=o32-clang++ CC=o32-clang GOOS=darwin GOARCH=386 CGO_ENABLED=1 go build $V -o $NAME-darwin-386 ./$PACK
 
 echo "Moving binaries to host..."
 cp `ls -t | head -n 7` /build
